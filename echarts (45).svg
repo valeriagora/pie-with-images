@@ -1,0 +1,70 @@
+<svg width="952" height="320" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" version="1.1" baseProfile="full" viewBox="0 0 952 320">
+<rect width="952" height="320" x="0" y="0" id="0" fill="none"></rect>
+<path d="M476 320.5L942 320.5" fill="none" stroke="#E0E6F1"></path>
+<path d="M476 240.5L942 240.5" fill="none" stroke="#E0E6F1"></path>
+<path d="M476 160.5L942 160.5" fill="none" stroke="#E0E6F1"></path>
+<path d="M476 80.5L942 80.5" fill="none" stroke="#E0E6F1"></path>
+<path d="M476 0.5L942 0.5" fill="none" stroke="#E0E6F1"></path>
+<path d="M476.5 0L476.5 320" fill="none" stroke="#E0E6F1"></path>
+<path d="M569.5 0L569.5 320" fill="none" stroke="#E0E6F1"></path>
+<path d="M662.5 0L662.5 320" fill="none" stroke="#E0E6F1"></path>
+<path d="M755.5 0L755.5 320" fill="none" stroke="#E0E6F1"></path>
+<path d="M849.5 0L849.5 320" fill="none" stroke="#E0E6F1"></path>
+<path d="M942.5 0L942.5 320" fill="none" stroke="#E0E6F1"></path>
+<path d="M476.5 320L476.5 0" fill="none" stroke="#6E7079" stroke-linecap="round"></path>
+<path d="M476 320.5L942 320.5" fill="none" stroke="#6E7079" stroke-linecap="round"></path>
+<path d="M476 320.5L471 320.5" fill="none" stroke="#6E7079"></path>
+<path d="M476 240.5L471 240.5" fill="none" stroke="#6E7079"></path>
+<path d="M476 160.5L471 160.5" fill="none" stroke="#6E7079"></path>
+<path d="M476 80.5L471 80.5" fill="none" stroke="#6E7079"></path>
+<path d="M476 0.5L471 0.5" fill="none" stroke="#6E7079"></path>
+<path d="M476.5 320L476.5 325" fill="none" stroke="#6E7079"></path>
+<path d="M569.5 320L569.5 325" fill="none" stroke="#6E7079"></path>
+<path d="M662.5 320L662.5 325" fill="none" stroke="#6E7079"></path>
+<path d="M755.5 320L755.5 325" fill="none" stroke="#6E7079"></path>
+<path d="M849.5 320L849.5 325" fill="none" stroke="#6E7079"></path>
+<path d="M942.5 320L942.5 325" fill="none" stroke="#6E7079"></path>
+<text dominant-baseline="central" text-anchor="end" style="font-size:12px;font-family:sans-serif;" transform="translate(468 320)" fill="#6E7079">0</text>
+<text dominant-baseline="central" text-anchor="end" style="font-size:12px;font-family:sans-serif;" transform="translate(468 240)" fill="#6E7079">1</text>
+<text dominant-baseline="central" text-anchor="end" style="font-size:12px;font-family:sans-serif;" transform="translate(468 160)" fill="#6E7079">2</text>
+<text dominant-baseline="central" text-anchor="end" style="font-size:12px;font-family:sans-serif;" transform="translate(468 80)" fill="#6E7079">3</text>
+<text dominant-baseline="central" text-anchor="end" style="font-size:12px;font-family:sans-serif;" transform="translate(468 0)" fill="#6E7079">4</text>
+<text dominant-baseline="central" text-anchor="middle" style="font-size:12px;font-family:sans-serif;" y="6" transform="translate(476 328)" fill="#6E7079">0</text>
+<text dominant-baseline="central" text-anchor="middle" style="font-size:12px;font-family:sans-serif;" y="6" transform="translate(569.2 328)" fill="#6E7079">10</text>
+<text dominant-baseline="central" text-anchor="middle" style="font-size:12px;font-family:sans-serif;" y="6" transform="translate(662.4 328)" fill="#6E7079">20</text>
+<text dominant-baseline="central" text-anchor="middle" style="font-size:12px;font-family:sans-serif;" y="6" transform="translate(755.6 328)" fill="#6E7079">30</text>
+<text dominant-baseline="central" text-anchor="middle" style="font-size:12px;font-family:sans-serif;" y="6" transform="translate(848.8 328)" fill="#6E7079">40</text>
+<text dominant-baseline="central" text-anchor="middle" style="font-size:12px;font-family:sans-serif;" y="6" transform="translate(942 328)" fill="#6E7079">50</text>
+<path d="M0 0l336.1982 0l0 80l-336.1982 0Z" transform="translate(572 0)" fill="none"></path>
+<text dominant-baseline="central" text-anchor="start" style="font-size:14px;font-family:Manrope, sans-serif;font-weight:500;" xml:space="preserve" y="10" transform="translate(572 0)" fill="#c8cad0">50% Short answer option  Short answer option  Short </text>
+<text dominant-baseline="central" text-anchor="start" style="font-size:14px;font-family:Manrope, sans-serif;font-weight:500;" xml:space="preserve" y="30" transform="translate(572 0)" fill="#c8cad0">answer option Short answer option  Short answer opti</text>
+<text dominant-baseline="central" text-anchor="start" style="font-size:14px;font-family:Manrope, sans-serif;font-weight:500;" xml:space="preserve" y="50" transform="translate(572 0)" fill="#c8cad0">on Short answer option Short answer option Short ans</text>
+<text dominant-baseline="central" text-anchor="start" style="font-size:14px;font-family:Manrope, sans-serif;font-weight:500;" xml:space="preserve" y="70" transform="translate(572 0)" fill="#c8cad0">wer option</text>
+<image href="https://plus.unsplash.com/premium_photo-1697695568731-5b351d7aca4b?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" width="72" height="72" y="1" transform="translate(476 0)" opacity="1"></image>
+<circle cx="0" cy="0" r="6" transform="translate(562 10)" fill="#FF877C"></circle>
+<path d="M0 0l156.4268 0l0 20l-156.4268 0Z" transform="translate(572 80)" fill="none"></path>
+<text dominant-baseline="central" text-anchor="start" style="font-size:14px;font-family:Manrope, sans-serif;font-weight:500;" xml:space="preserve" y="10" transform="translate(572 80)" fill="#c8cad0">30% Short answer option</text>
+<image href="https://images.unsplash.com/photo-1682685797140-c17807f8f217?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" width="72" height="72" y="1" transform="translate(476 80)" opacity="1"></image>
+<circle cx="0" cy="0" r="6" transform="translate(562 90)" fill="#25B4C8"></circle>
+<path d="M0 0l65.3721 0l0 20l-65.3721 0Z" transform="translate(572 160)" fill="none"></path>
+<text dominant-baseline="central" text-anchor="start" style="font-size:14px;font-family:Manrope, sans-serif;font-weight:500;" xml:space="preserve" y="10" transform="translate(572 160)" fill="#c8cad0">15% Short</text>
+<image href="https://images.unsplash.com/photo-1682685797857-97de838c192e?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" width="72" height="72" y="1" transform="translate(476 160)" opacity="1"></image>
+<circle cx="0" cy="0" r="6" transform="translate(562 170)" fill="#D88ADA"></circle>
+<path d="M0 0l145.5166 0l0 20l-145.5166 0Z" transform="translate(572 240)" fill="none"></path>
+<text dominant-baseline="central" text-anchor="start" style="font-size:14px;font-family:Manrope, sans-serif;font-weight:500;" xml:space="preserve" y="10" transform="translate(572 240)" fill="#c8cad0">5% Short skjdkjsad asd</text>
+<image href="https://images.unsplash.com/photo-1704107116952-978a5712566c?q=80&w=2938&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D" width="72" height="72" y="1" transform="translate(476 240)" opacity="1"></image>
+<circle cx="0" cy="0" r="6" transform="translate(562 250)" fill="#9ECC7F"></circle>
+<path d="M238 69A91 91 0 0 1 295.429 89.4103L270.1855 120.4387A51 51 0 0 0 238 109Z" fill="#FF877C"></path>
+<path d="M295.429 89.4103A91 91 0 0 1 318.7976 201.8659L283.2821 183.4633A51 51 0 0 0 270.1855 120.4387Z" fill="#25B4C8"></path>
+<path d="M318.7976 201.8659A91 91 0 0 1 185.5221 234.3443L208.5893 201.6655A51 51 0 0 0 283.2821 183.4633Z" fill="#D88ADA"></path>
+<path d="M185.5221 234.3443A91 91 0 0 1 147.2121 153.7899L187.1189 156.5196A51 51 0 0 0 208.5893 201.6655Z" fill="#9ECC7F"></path>
+<path d="M147.2121 153.7899A91 91 0 0 1 148.9033 141.4855L188.0667 149.6237A51 51 0 0 0 187.1189 156.5196Z" fill="#F9DE82"></path>
+<path d="M148.9033 141.4855A91 91 0 0 1 154.5338 123.7455L191.2222 139.6815A51 51 0 0 0 188.0667 149.6237Z" fill="#39519B"></path>
+<path d="M154.5338 123.7455A91 91 0 0 1 171.4939 97.8877L200.7274 125.1898A51 51 0 0 0 191.2222 139.6815Z" fill="#FF877C"></path>
+<path d="M171.4939 97.8877A91 91 0 0 1 185.5221 85.6557L208.5893 118.3345A51 51 0 0 0 200.7274 125.1898Z" fill="#25B4C8"></path>
+<path d="M185.5221 85.6557A91 91 0 0 1 196.1341 79.2024L214.5367 114.7179A51 51 0 0 0 208.5893 118.3345Z" fill="#D88ADA"></path>
+<path d="M196.1341 79.2024A91 91 0 0 1 207.526 74.2543L220.9211 111.9447A51 51 0 0 0 214.5367 114.7179Z" fill="#9ECC7F"></path>
+<path d="M207.526 74.2543A91 91 0 0 1 219.4855 70.9033L227.6237 110.0667A51 51 0 0 0 220.9211 111.9447Z" fill="#F9DE82"></path>
+<path d="M219.4855 70.9033A91 91 0 0 1 231.7899 69.2121L234.5196 109.1189A51 51 0 0 0 227.6237 110.0667Z" fill="#39519B"></path>
+<path d="M231.7899 69.2121A91 91 0 0 1 238 69L238 109A51 51 0 0 0 234.5196 109.1189Z" fill="#FF877C"></path>
+</svg>
