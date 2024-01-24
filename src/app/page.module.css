@@ -1,11 +1,17 @@
 .largeCard {
   position: relative;
   margin: 20px;
-  /* padding: 10px 0; */
   width: 952px;
   height: 320px;
   min-height: 320px;
-
-  /* border: 1px solid pink; */
+  background: #222430;
+}
+.mediumCard {
+  position: relative;
+  margin: 20px;
+  width: 616px;
+  height: 328px;
+  border: 2px solid lightyellow;
+  /* min-height: 320px; */
   background: #222430;
 }
