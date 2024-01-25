@@ -20,20 +20,26 @@ const pieColors = [
 const pieData = [
   {
     value: 10,
-    name: "Search Engine",
+    name: "Search Engine Engine earch Engine Search Engine Search Engine Search Engine Engine Engine earch Engine Search ",
   },
   {
     value: 20,
-    name: "Search Engine",
+    name: "Search Engine Search Engine Search Engine Search Engine ",
   },
   {
     value: 25,
-    name: "Other Search Engine Search Search Engine Search Engine Search Engine Search Engine Search Search Engine Search Engine Search Engine Search Engine  ",
+    name: "Other Search Engine Search Search Engine Search Engine Search Engine Search Engine Search Search Other Search Engine Search Search Engine Search Engine Search Engine Search Engine Search Search Engine Search Engine Search Engine Search Engine  ",
   },
-  { value: 15, name: "Option 1 Option 1 Option 1 Option 1" },
-  { value: 2, name: "Option 2" },
-  // { value: 3, name: "Option 3" },
-  // { value: 5, name: "Option 4" },
+  {
+    value: 15,
+    name: "Option 1 Option 1",
+  },
+  {
+    value: 2,
+    name: "Option 2 Option 2 Option 2 Option 2 Option 2Option 2 Option 2 Option 2 Option 2 Option 2 Option 2",
+  },
+  { value: 3, name: "Option 3 Option 3 Option 3 Option 3 " },
+  { value: 5, name: "Option 4" },
 ];
 const images = [
   "https://plus.unsplash.com/premium_photo-1697695568731-5b351d7aca4b?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -41,8 +47,8 @@ const images = [
   "https://images.unsplash.com/photo-1682685797857-97de838c192e?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   "https://images.unsplash.com/photo-1682695796497-31a44224d6d6?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   "https://images.unsplash.com/photo-1704107116952-978a5712566c?q=80&w=2938&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  // "https://plus.unsplash.com/premium_photo-1663946448065-967d72d58b4f?q=80&w=2875&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  // "https://images.unsplash.com/photo-1705179573286-495f1b4fabaf?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "https://plus.unsplash.com/premium_photo-1663946448065-967d72d58b4f?q=80&w=2875&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "https://images.unsplash.com/photo-1705179573286-495f1b4fabaf?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 ];
 type PieLegend = [number, number, string, string][];
 const customSeriesData: PieLegend = pieData.map(({ value, name }, idx) => [
@@ -53,7 +59,7 @@ const customSeriesData: PieLegend = pieData.map(({ value, name }, idx) => [
 ]);
 
 function breakWord(string: string, symbolsCount: number) {
-  const splittedBySpacing = string.split(" "); // [word, word, word ...]
+  const splittedBySpacing = string.split(" ");
   return splittedBySpacing.reduce(
     (total, current) => {
       let lastElem = total[total.length - 1];
@@ -115,7 +121,9 @@ const renderLegendItem = (
   param: CustomSeriesRenderItemParams,
   api: CustomSeriesRenderItemAPI,
   imageUrl: string,
-  itemsLength: number
+  itemsLength: number,
+  optionHeights: number[],
+  optionsWithImagesLines: number[]
 ) => {
   const xAxisStartPx = param.coordSys.x;
   const [_, ySizePx] = api.size([1, 1]) as number[];
@@ -158,6 +166,24 @@ const renderLegendItem = (
       ? L_LEGEND_WITH_IMAGE_MAX_SYMBOLS_COUNT
       : L_LEGEND_MAX_SYMBOLS_COUNT
   );
+
+  let prevHeights = 0;
+  for (let i = 0; i < param.dataIndex; i++) {
+    prevHeights += optionHeights[i];
+  }
+  console.log("dataIdx", param.dataIndex);
+  console.log("prevHeights", prevHeights);
+  console.log("optionHeights", optionHeights);
+
+  let iconY = (optionHeights[param.dataIndex] - 8) / 2 + prevHeights;
+  console.log("icon y", iconY);
+
+  const textY =
+    prevHeights +
+    optionHeights[param.dataIndex] / 2 -
+    TEXT_LINE_HEIGHT / 2 -
+    IMAGE_OPTION_MARGIN_BOTTOM / 2 -
+    ((optionsWithImagesLines[param.dataIndex] - 1) * TEXT_LINE_HEIGHT) / 2;
   return {
     type: "group",
     silent: true,
@@ -181,7 +207,8 @@ const renderLegendItem = (
             CIRCLE_ICON_MARGIN_RIGHT,
           itemsLength === 1
             ? ySizePx / 2 - (overflowedText.length * 20) / 2
-            : param.dataIndex * ySizePx,
+            : textY,
+          // 80 + 80 + 108,
         ],
       },
       {
@@ -193,7 +220,12 @@ const renderLegendItem = (
           y:
             itemsLength === 1
               ? ySizePx / 2 - OPTION_IMAGE_HEIGHT / 2
-              : ySizePx * param.dataIndex,
+              : prevHeights +
+                (optionHeights[param.dataIndex] - IMAGE_OPTION_MARGIN_BOTTOM) /
+                  2 -
+                OPTION_IMAGE_HEIGHT / 2,
+          // coversY,
+          // ySizePx * param.dataIndex,
         },
         style: {
           fill: "#1a1a25",
@@ -212,7 +244,11 @@ const renderLegendItem = (
           xAxisStartPx,
           itemsLength === 1
             ? ySizePx / 2 - OPTION_IMAGE_HEIGHT / 2
-            : ySizePx * param.dataIndex,
+            : prevHeights +
+              (optionHeights[param.dataIndex] - IMAGE_OPTION_MARGIN_BOTTOM) /
+                2 -
+              OPTION_IMAGE_HEIGHT / 2,
+          // ySizePx * param.dataIndex,
         ],
       },
       {
@@ -230,9 +266,8 @@ const renderLegendItem = (
             OPTION_IMAGE_HEIGHT +
             IMAGE_OPTION_MARGIN_RIGHT +
             CIRCLE_ICON_RADIUS,
-          itemsLength === 1
-            ? ySizePx / 2
-            : TEXT_LINE_HEIGHT / 2 + param.dataIndex * ySizePx,
+          itemsLength === 1 ? ySizePx / 2 : iconY,
+          // TEXT_LINE_HEIGHT / 2 + param.dataIndex * ySizePx,
         ],
       },
     ],
@@ -491,7 +526,9 @@ const getLgOption = (
   pieData: any,
   pieLegendData: any,
   questionImage: string,
-  optionWithImageHeight: number
+  optionWithImageHeight: number,
+  optionHeights: number[],
+  optionsWithImagesLines: number[]
 ) => ({
   tooltip: {
     trigger: "item",
@@ -499,22 +536,22 @@ const getLgOption = (
   backgroundColor: "#222430",
   xAxis: {
     splitLine: {
-      show: true,
+      show: false,
     },
   },
   yAxis: {
     axisLabel: {
-      show: true,
+      show: false,
     },
     type: "value",
     splitLine: {
-      show: true,
+      show: false,
     },
     axisLine: {
-      show: true,
+      show: false,
     },
     axisTick: {
-      show: true,
+      show: false,
     },
   },
   series: [
@@ -523,7 +560,15 @@ const getLgOption = (
       renderItem: (
         param: CustomSeriesRenderItemParams,
         api: CustomSeriesRenderItemAPI
-      ) => renderLegendItem(param, api, questionImage, pieData.length),
+      ) =>
+        renderLegendItem(
+          param,
+          api,
+          questionImage,
+          pieData.length,
+          optionHeights,
+          optionsWithImagesLines
+        ),
       data: pieLegendData,
     },
     {
@@ -640,6 +685,36 @@ export default function Home() {
     },
     0
   );
+  const optionsWithImagesLines = pieData.reduce(
+    (total: number[], current: any) => {
+      const { value, name } = current;
+      const linesCount = breakWord(
+        `${value}% ${name}`,
+        imageUrl
+          ? L_LEGEND_WITH_IMAGE_MAX_SYMBOLS_COUNT
+          : L_LEGEND_MAX_SYMBOLS_COUNT
+      ).length;
+      total.push(linesCount);
+      return total;
+    },
+    []
+  );
+  console.log("* optionsWithImagesLines", optionsWithImagesLines);
+  const L_MAX_LINES = Math.floor(OPTION_IMAGE_HEIGHT / TEXT_LINE_HEIGHT);
+  const optionHeights = optionsWithImagesLines.map((lines) => {
+    if (lines > L_MAX_LINES) {
+      return lines * TEXT_LINE_HEIGHT + IMAGE_OPTION_MARGIN_BOTTOM;
+    }
+    return OPTION_IMAGE_HEIGHT + IMAGE_OPTION_MARGIN_BOTTOM;
+  });
+
+  const lContainerHeight =
+    optionHeights.reduce((total, height) => (total += height), 0) -
+    IMAGE_OPTION_MARGIN_BOTTOM;
+
+  // console.log("optionsWithImagesLines", optionsWithImagesLines);
+  console.log("optionHeights", optionHeights);
+  // console.log("lContainerHeight", lContainerHeight); // 428
 
   const downloadChart = async (chartInstance: ECharts) => {
     const url = await getSvgBlob(chartInstance);
@@ -706,12 +781,14 @@ export default function Home() {
     maxLinesHeight < defaultImageOptionHeight
       ? defaultImageOptionHeight
       : maxLinesHeight;
-  console.log("optionWithImageHeight", optionWithImageHeight);
+
   const option = getLgOption(
     pieData,
     pieLegendData,
     questionImage,
-    optionWithImageHeight
+    optionWithImageHeight,
+    optionHeights,
+    optionsWithImagesLines
   );
 
   // const option = getMdOption(pieData, pieLegendData, questionImage);
@@ -726,8 +803,9 @@ export default function Home() {
         height={
           size === "large"
             ? withImageOptions
-              ? pieData.length * optionWithImageHeight
-              : pieData.length * 60
+              ? lContainerHeight
+              : // pieData.length * optionWithImageHeight
+                pieData.length * 60
             : barContainerHeights[size]
         }
       >
