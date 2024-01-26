@@ -18,17 +18,17 @@ const pieColors = [
   "#39519B",
 ];
 const pieData = [
-  {
-    value: 10,
-    name: "Search Engine Engine earch Engine Search Engine Search Engine Search Engine Engine Engine earch Engine Search ",
-  },
-  {
-    value: 20,
-    name: "Search Engine Search Engine Search Engine Search Engine ",
-  },
+  // {
+  //   value: 10,
+  //   name: "Search Engine Search Engine Engine Search Engine Search Engine",
+  // },
+  // {
+  //   value: 20,
+  //   name: "Engine Search Engine Search Engine",
+  // },
   {
     value: 25,
-    name: "Other Search Engine Search Search Engine Search Engine Search Engine Search Engine Search Search Other Search Engine Search Search Engine Search Engine Search Engine Search Engine Search Search Engine Search Engine Search Engine Search Engine  ",
+    name: "Other Search Engine Search Engine Search Search Engine Search Engine Search Engine Search Engine  ",
   },
   {
     value: 15,
@@ -36,19 +36,19 @@ const pieData = [
   },
   {
     value: 2,
-    name: "Option 2 Option 2 Option 2 Option 2 Option 2Option 2 Option 2 Option 2 Option 2 Option 2 Option 2",
+    name: "Option 2 Option 2 Option 2 Option 2 Option 2Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2",
   },
   { value: 3, name: "Option 3 Option 3 Option 3 Option 3 " },
   { value: 5, name: "Option 4" },
 ];
 const images = [
-  "https://plus.unsplash.com/premium_photo-1697695568731-5b351d7aca4b?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  // "https://plus.unsplash.com/premium_photo-1697695568731-5b351d7aca4b?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   "https://images.unsplash.com/photo-1682685797140-c17807f8f217?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   "https://images.unsplash.com/photo-1682685797857-97de838c192e?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   "https://images.unsplash.com/photo-1682695796497-31a44224d6d6?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   "https://images.unsplash.com/photo-1704107116952-978a5712566c?q=80&w=2938&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   "https://plus.unsplash.com/premium_photo-1663946448065-967d72d58b4f?q=80&w=2875&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1705179573286-495f1b4fabaf?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  // "https://images.unsplash.com/photo-1705179573286-495f1b4fabaf?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 ];
 type PieLegend = [number, number, string, string][];
 const customSeriesData: PieLegend = pieData.map(({ value, name }, idx) => [
@@ -60,12 +60,13 @@ const customSeriesData: PieLegend = pieData.map(({ value, name }, idx) => [
 
 function breakWord(string: string, symbolsCount: number) {
   const splittedBySpacing = string.split(" ");
+  const spacing = " ";
   return splittedBySpacing.reduce(
-    (total, current) => {
+    (total, current, idx) => {
       let lastElem = total[total.length - 1];
       const nextLength = lastElem.length + ` ${current}`.length;
       if (nextLength <= symbolsCount) {
-        total[total.length - 1] += ` ${current}`;
+        total[total.length - 1] += `${idx ? spacing : ""}${current}`;
       } else {
         total.push(`${current}`);
       }
@@ -79,21 +80,24 @@ function truncate(text: string, symbolsCount: number) {
   return text.slice(0, symbolsCount) + "...";
 }
 const TEXT_LINE_HEIGHT = 20;
-const OPTION_IMAGE_HEIGHT = 72;
-const IMAGE_OPTION_MARGIN_RIGHT = 8;
-const IMAGE_OPTION_MARGIN_BOTTOM = 8;
+const OPTION_IMAGE_SIDE = 72;
+const OPTION_IMAGE_MARGIN_RIGHT = 8;
+const OPTION_IMAGE_MARGIN_BOTTOM = 8;
 const CIRCLE_ICON_MARGIN_RIGHT = 4;
 const CIRCLE_ICON_RADIUS = 6;
-const L_LEGEND_MAX_SYMBOLS_COUNT = 52;
-const L_LEGEND_WITH_IMAGE_MAX_SYMBOLS_COUNT = 35;
-const M_LEGEND_MAX_SYMBOLS_COUNT = 27;
-const M_LEGEND_WITH_IMAGE_MAX_SYMBOLS_COUNT = 10;
-const QUESTION_IMAGE_WIDTH = 120;
+// break word for L charts
+const L_LEGEND_MAX_SYMBOLS_COUNT = 50;
+const L_LEGEND_WITH_IMAGE_MAX_SYMBOLS_COUNT = 30;
+// truncate for M charts
+const M_LEGEND_MAX_SYMBOLS_COUNT = 22;
+const M_LEGEND_WITH_IMAGE_MAX_SYMBOLS_COUNT = 6;
+const QUESTION_IMAGE_SIDE = 120;
 const L_CHART_WIDTH = 952;
 const M_CHART_WIDTH = 616;
 const IMAGE_OPTION_BG_RADIUS = 8;
 const M_GRID_TOP_PADDING = 8;
 const M_GRID_BOTTOM_PADDING = 8;
+const MAX_PERCENTS_TEXT_WIDTH = 36;
 const RECTANGLE_WITH_RADIUS_CUSTOM_SHAPE = "RECTANGLE_WITH_RADIUS_CUSTOM_SHAPE";
 const RectangleWithRadius = graphic.extendShape({
   buildPath: function (ctx, shape) {
@@ -117,73 +121,103 @@ const RectangleWithRadius = graphic.extendShape({
   },
 });
 graphic.registerShape(RECTANGLE_WITH_RADIUS_CUSTOM_SHAPE, RectangleWithRadius);
+const getLegendIconColor = (colors: string[], index: number) => {
+  const remainder = index % colors.length;
+  return colors[remainder];
+};
+const legendTextStyles = {
+  lineHeight: TEXT_LINE_HEIGHT,
+  fontSize: 14,
+  fontWeight: 500,
+  fontFamily: "Manrope, sans-serif",
+};
+const getQuestionImage = (
+  questionImageUrl: string,
+  coordSysHeight: number,
+  size: string
+) => {
+  const gridTopPadding = size === "medium" ? M_GRID_BOTTOM_PADDING : 0;
+  const chartWidth = size === "medium" ? M_CHART_WIDTH : L_CHART_WIDTH;
+  return [
+    {
+      type: RECTANGLE_WITH_RADIUS_CUSTOM_SHAPE,
+      shape: {
+        width: QUESTION_IMAGE_SIDE,
+        height: QUESTION_IMAGE_SIDE,
+        x: chartWidth - QUESTION_IMAGE_SIDE,
+        y: gridTopPadding + (coordSysHeight - QUESTION_IMAGE_SIDE) / 2,
+      },
+      style: {
+        fill: "#1a1a25",
+      },
+    },
+    {
+      type: "image",
+      style: {
+        x: 0,
+        image: questionImageUrl,
+        y: 0,
+        width: QUESTION_IMAGE_SIDE,
+        height: QUESTION_IMAGE_SIDE,
+      },
+      position: [
+        chartWidth - QUESTION_IMAGE_SIDE,
+        (coordSysHeight - QUESTION_IMAGE_SIDE) / 2 + gridTopPadding,
+      ],
+    },
+  ];
+};
 const renderLegendItem = (
   param: CustomSeriesRenderItemParams,
   api: CustomSeriesRenderItemAPI,
-  imageUrl: string,
-  itemsLength: number,
+  questionImageUrl: string,
   optionHeights: number[],
   optionsWithImagesLines: number[]
 ) => {
+  console.log(param.coordSys);
+  const itemsLength = optionHeights.length;
   const xAxisStartPx = param.coordSys.x;
   const [_, ySizePx] = api.size([1, 1]) as number[];
-  const percents = api.value(0) + "% ";
-  const remainder = param.dataIndex % pieColors.length;
-  const iconColor = pieColors[remainder];
-  const questionImage = imageUrl
-    ? [
-        {
-          type: RECTANGLE_WITH_RADIUS_CUSTOM_SHAPE,
-          shape: {
-            width: QUESTION_IMAGE_WIDTH,
-            height: QUESTION_IMAGE_WIDTH,
-            x: L_CHART_WIDTH - QUESTION_IMAGE_WIDTH,
-            y: ((param.coordSys as any).height - QUESTION_IMAGE_WIDTH) / 2,
-          },
-          style: {
-            fill: "#1a1a25",
-          },
-        },
-        {
-          type: "image",
-          style: {
-            x: 0,
-            image: imageUrl,
-            y: 0,
-            width: QUESTION_IMAGE_WIDTH,
-            height: QUESTION_IMAGE_WIDTH,
-          },
-          position: [
-            L_CHART_WIDTH - QUESTION_IMAGE_WIDTH,
-            ((param.coordSys as any).height - QUESTION_IMAGE_WIDTH) / 2,
-          ],
-        },
-      ]
+  const iconColor = getLegendIconColor(pieColors, param.dataIndex);
+  const questionImage = questionImageUrl
+    ? getQuestionImage(
+        questionImageUrl,
+        (param.coordSys as any).height,
+        "large"
+      )
     : [];
-  const overflowedText = breakWord(
-    (percents + api.value(2)) as string,
-    imageUrl
+  const percents = api.value(0);
+  const label = api.value(2);
+  const imageOptionUrl = api.value(3);
+  const labelChunks = breakWord(
+    label as string,
+    questionImageUrl
       ? L_LEGEND_WITH_IMAGE_MAX_SYMBOLS_COUNT
       : L_LEGEND_MAX_SYMBOLS_COUNT
   );
+  const prevOptionHeightsSum = optionHeights.reduce((total, current, idx) => {
+    if (idx < param.dataIndex) {
+      total += current;
+    }
+    return total;
+  }, 0);
+  let yImageCenter =
+    prevOptionHeightsSum +
+    (optionHeights[param.dataIndex] - OPTION_IMAGE_MARGIN_BOTTOM) / 2;
+  const yImage =
+    prevOptionHeightsSum +
+    (optionHeights[param.dataIndex] - OPTION_IMAGE_MARGIN_BOTTOM) / 2 -
+    OPTION_IMAGE_SIDE / 2;
+  const labelY =
+    yImageCenter -
+    (optionsWithImagesLines[param.dataIndex] * TEXT_LINE_HEIGHT) / 2;
+  const iconX =
+    xAxisStartPx +
+    OPTION_IMAGE_SIDE +
+    OPTION_IMAGE_MARGIN_RIGHT +
+    CIRCLE_ICON_RADIUS;
+  const percentsX = iconX + CIRCLE_ICON_RADIUS + CIRCLE_ICON_MARGIN_RIGHT;
 
-  let prevHeights = 0;
-  for (let i = 0; i < param.dataIndex; i++) {
-    prevHeights += optionHeights[i];
-  }
-  console.log("dataIdx", param.dataIndex);
-  console.log("prevHeights", prevHeights);
-  console.log("optionHeights", optionHeights);
-
-  let iconY = (optionHeights[param.dataIndex] - 8) / 2 + prevHeights;
-  console.log("icon y", iconY);
-
-  const textY =
-    prevHeights +
-    optionHeights[param.dataIndex] / 2 -
-    TEXT_LINE_HEIGHT / 2 -
-    IMAGE_OPTION_MARGIN_BOTTOM / 2 -
-    ((optionsWithImagesLines[param.dataIndex] - 1) * TEXT_LINE_HEIGHT) / 2;
   return {
     type: "group",
     silent: true,
@@ -192,40 +226,38 @@ const renderLegendItem = (
       {
         type: "text",
         style: {
-          text: overflowedText.join("\n"),
-          lineHeight: TEXT_LINE_HEIGHT,
-          fontSize: 14,
-          fill: "#c8cad0",
-          fontWeight: 500,
-          fontFamily: "Manrope, sans-serif",
+          text: `${percents}%`,
+          ...legendTextStyles,
+          fill: "#fff",
         },
         position: [
-          xAxisStartPx +
-            OPTION_IMAGE_HEIGHT +
-            IMAGE_OPTION_MARGIN_RIGHT +
-            CIRCLE_ICON_RADIUS * 2 +
-            CIRCLE_ICON_MARGIN_RIGHT,
+          percentsX,
           itemsLength === 1
-            ? ySizePx / 2 - (overflowedText.length * 20) / 2
-            : textY,
-          // 80 + 80 + 108,
+            ? ySizePx / 2 - TEXT_LINE_HEIGHT / 2
+            : yImageCenter - TEXT_LINE_HEIGHT / 2,
+        ],
+      },
+      {
+        type: "text",
+        style: {
+          text: labelChunks.join("\n"),
+          ...legendTextStyles,
+          fill: "#c8cad0",
+        },
+        position: [
+          MAX_PERCENTS_TEXT_WIDTH + percentsX,
+          itemsLength === 1
+            ? ySizePx / 2 - (labelChunks.length * TEXT_LINE_HEIGHT) / 2
+            : labelY,
         ],
       },
       {
         type: RECTANGLE_WITH_RADIUS_CUSTOM_SHAPE,
         shape: {
-          width: 72,
-          height: 72,
+          width: OPTION_IMAGE_SIDE,
+          height: OPTION_IMAGE_SIDE,
           x: xAxisStartPx,
-          y:
-            itemsLength === 1
-              ? ySizePx / 2 - OPTION_IMAGE_HEIGHT / 2
-              : prevHeights +
-                (optionHeights[param.dataIndex] - IMAGE_OPTION_MARGIN_BOTTOM) /
-                  2 -
-                OPTION_IMAGE_HEIGHT / 2,
-          // coversY,
-          // ySizePx * param.dataIndex,
+          y: itemsLength === 1 ? ySizePx / 2 - OPTION_IMAGE_SIDE / 2 : yImage,
         },
         style: {
           fill: "#1a1a25",
@@ -235,20 +267,14 @@ const renderLegendItem = (
         type: "image",
         style: {
           x: 0,
-          image: api.value(3),
+          image: imageOptionUrl,
           y: 1,
-          width: 72,
-          height: 72,
+          width: OPTION_IMAGE_SIDE,
+          height: OPTION_IMAGE_SIDE,
         },
         position: [
           xAxisStartPx,
-          itemsLength === 1
-            ? ySizePx / 2 - OPTION_IMAGE_HEIGHT / 2
-            : prevHeights +
-              (optionHeights[param.dataIndex] - IMAGE_OPTION_MARGIN_BOTTOM) /
-                2 -
-              OPTION_IMAGE_HEIGHT / 2,
-          // ySizePx * param.dataIndex,
+          itemsLength === 1 ? ySizePx / 2 - OPTION_IMAGE_SIDE / 2 : yImage,
         ],
       },
       {
@@ -261,83 +287,73 @@ const renderLegendItem = (
         style: {
           fill: iconColor,
         },
-        position: [
-          xAxisStartPx +
-            OPTION_IMAGE_HEIGHT +
-            IMAGE_OPTION_MARGIN_RIGHT +
-            CIRCLE_ICON_RADIUS,
-          itemsLength === 1 ? ySizePx / 2 : iconY,
-          // TEXT_LINE_HEIGHT / 2 + param.dataIndex * ySizePx,
-        ],
+        position: [iconX, itemsLength === 1 ? ySizePx / 2 : yImageCenter],
       },
     ],
   };
 };
+const hiddenAxises = {
+  xAxis: {
+    splitLine: {
+      show: false,
+    },
+    axisTick: {
+      show: false,
+    },
+    axisLine: {
+      show: false,
+    },
+  },
+  yAxis: {
+    axisLabel: {
+      show: false,
+    },
+    type: "value",
+    splitLine: {
+      show: false,
+    },
+    axisLine: {
+      show: false,
+    },
+    axisTick: {
+      show: false,
+    },
+  },
+};
 const renderMdLegendItem = (
   param: CustomSeriesRenderItemParams,
   api: CustomSeriesRenderItemAPI,
-  imageUrl: string,
+  questionImageUrl: string,
   itemsLength: number,
   hasOverflow: boolean
 ) => {
   const xAxisStartPx = param.coordSys.x;
   const [_, ySizePx] = api.size([1, 1]) as number[];
-  const label = api.value(0) + "% " + api.value(2);
-  const remainder = param.dataIndex % pieColors.length;
-  const iconColor = pieColors[remainder];
+  const iconColor = getLegendIconColor(pieColors, param.dataIndex);
   const overflowDots = hasOverflow
     ? [
         {
           type: "text",
           style: {
             text: "...",
-            lineHeight: TEXT_LINE_HEIGHT,
-            fontSize: 14,
+            ...legendTextStyles,
             fill: "#c8cad0",
-            fontWeight: 500,
-            fontFamily: "Manrope, sans-serif",
           },
           position: [
-            xAxisStartPx,
-            -TEXT_LINE_HEIGHT / 2 + M_GRID_TOP_PADDING + ySizePx * 4,
+            1.5 * xAxisStartPx,
+            M_GRID_TOP_PADDING - TEXT_LINE_HEIGHT / 2 + ySizePx * 4,
           ],
         },
       ]
     : [];
-  const questionImage = imageUrl
-    ? [
-        {
-          type: RECTANGLE_WITH_RADIUS_CUSTOM_SHAPE,
-          shape: {
-            width: QUESTION_IMAGE_WIDTH,
-            height: QUESTION_IMAGE_WIDTH,
-            x: M_CHART_WIDTH - QUESTION_IMAGE_WIDTH,
-            y:
-              ((param.coordSys as any).height - QUESTION_IMAGE_WIDTH) / 2 +
-              M_GRID_TOP_PADDING,
-          },
-          style: {
-            fill: "#1a1a25",
-          },
-        },
-        {
-          type: "image",
-          style: {
-            x: 0,
-            image: imageUrl,
-            y: 0,
-            width: QUESTION_IMAGE_WIDTH,
-            height: QUESTION_IMAGE_WIDTH,
-          },
-          position: [
-            M_CHART_WIDTH - QUESTION_IMAGE_WIDTH,
-            ((param.coordSys as any).height - QUESTION_IMAGE_WIDTH) / 2 +
-              M_GRID_TOP_PADDING,
-          ],
-        },
-      ]
+  const questionImage = questionImageUrl
+    ? getQuestionImage(
+        questionImageUrl,
+        (param.coordSys as any).height,
+        "medium"
+      )
     : [];
-  const textYPositions = [
+  const labelYPositions = [
     null,
     -TEXT_LINE_HEIGHT / 2 + M_GRID_TOP_PADDING + ySizePx / 2,
     -TEXT_LINE_HEIGHT / 2 +
@@ -361,24 +377,24 @@ const renderMdLegendItem = (
   ];
   const coverYPositions = [
     null,
-    M_GRID_TOP_PADDING + ySizePx / 2 - OPTION_IMAGE_HEIGHT / 2,
+    M_GRID_TOP_PADDING + ySizePx / 2 - OPTION_IMAGE_SIDE / 2,
     (param.dataIndex + 1) * (ySizePx / 2) +
       M_GRID_TOP_PADDING +
-      IMAGE_OPTION_MARGIN_BOTTOM / 2,
+      OPTION_IMAGE_MARGIN_BOTTOM / 2,
     M_GRID_TOP_PADDING +
       ySizePx * 1.5 -
-      OPTION_IMAGE_HEIGHT / 2 -
+      OPTION_IMAGE_SIDE / 2 -
       (param.dataIndex
         ? param.dataIndex === 1
           ? 0
-          : OPTION_IMAGE_HEIGHT + IMAGE_OPTION_MARGIN_BOTTOM / 2
-        : -OPTION_IMAGE_HEIGHT - IMAGE_OPTION_MARGIN_BOTTOM / 2),
+          : OPTION_IMAGE_SIDE + OPTION_IMAGE_MARGIN_BOTTOM / 2
+        : -OPTION_IMAGE_SIDE - OPTION_IMAGE_MARGIN_BOTTOM / 2),
     M_GRID_TOP_PADDING +
-      (OPTION_IMAGE_HEIGHT + IMAGE_OPTION_MARGIN_BOTTOM) * param.dataIndex,
+      (OPTION_IMAGE_SIDE + OPTION_IMAGE_MARGIN_BOTTOM) * param.dataIndex,
   ];
   const textWithOverflow = truncate(
-    label,
-    imageUrl
+    api.value(2),
+    questionImageUrl
       ? M_LEGEND_WITH_IMAGE_MAX_SYMBOLS_COUNT
       : M_LEGEND_MAX_SYMBOLS_COUNT
   );
@@ -391,27 +407,43 @@ const renderMdLegendItem = (
       {
         type: "text",
         style: {
-          text: textWithOverflow,
-          lineHeight: TEXT_LINE_HEIGHT,
-          fontSize: 14,
-          fill: "#c8cad0",
-          fontWeight: 500,
-          fontFamily: "Manrope, sans-serif",
+          text: `${api.value(0)}%`,
+          ...legendTextStyles,
+          fill: "#fff",
         },
         position: [
           xAxisStartPx +
-            OPTION_IMAGE_HEIGHT +
-            IMAGE_OPTION_MARGIN_RIGHT +
+            OPTION_IMAGE_SIDE +
+            OPTION_IMAGE_MARGIN_RIGHT +
             CIRCLE_ICON_RADIUS * 2 +
             CIRCLE_ICON_MARGIN_RIGHT,
-          textYPositions[itemsLength],
+          itemsLength === 1
+            ? ySizePx / 2 - TEXT_LINE_HEIGHT / 2
+            : labelYPositions[itemsLength],
+        ],
+      },
+      {
+        type: "text",
+        style: {
+          text: textWithOverflow,
+          ...legendTextStyles,
+          fill: "#c8cad0",
+        },
+        position: [
+          MAX_PERCENTS_TEXT_WIDTH +
+            xAxisStartPx +
+            OPTION_IMAGE_SIDE +
+            OPTION_IMAGE_MARGIN_RIGHT +
+            CIRCLE_ICON_RADIUS * 2 +
+            CIRCLE_ICON_MARGIN_RIGHT,
+          labelYPositions[itemsLength],
         ],
       },
       {
         type: RECTANGLE_WITH_RADIUS_CUSTOM_SHAPE,
         shape: {
-          width: 72,
-          height: 72,
+          width: OPTION_IMAGE_SIDE,
+          height: OPTION_IMAGE_SIDE,
           x: xAxisStartPx,
           y: coverYPositions[itemsLength],
         },
@@ -442,14 +474,34 @@ const renderMdLegendItem = (
         },
         position: [
           xAxisStartPx +
-            OPTION_IMAGE_HEIGHT +
-            IMAGE_OPTION_MARGIN_RIGHT +
+            OPTION_IMAGE_SIDE +
+            OPTION_IMAGE_MARGIN_RIGHT +
             CIRCLE_ICON_RADIUS,
           iconYPositions[itemsLength],
         ],
       },
     ],
   };
+};
+const pieTooltip = {
+  trigger: "item",
+  backgroundColor: "#222430",
+  formatter: (params: any) => {
+    const name = breakWord(params.name, 30).join("<br/>");
+    return `${params.value}% ${name}`;
+  },
+};
+const pieSeries = {
+  type: "pie",
+  color: pieColors,
+  label: {
+    show: false,
+  },
+  emptyCircleStyle: {
+    color: "#6C7080",
+  },
+  center: ["25%", "50%"],
+  radius: [51, 91],
 };
 const getMdOption = (
   pieData: any,
@@ -460,30 +512,9 @@ const getMdOption = (
   const data = hasOverflow ? pieData.slice(0, 4) : pieData;
   const legendData = hasOverflow ? pieLegendData.slice(0, 4) : pieLegendData;
   return {
-    tooltip: {
-      trigger: "item",
-    },
+    tooltip: pieTooltip,
     backgroundColor: "#222430",
-    xAxis: {
-      splitLine: {
-        show: true,
-      },
-    },
-    yAxis: {
-      axisLabel: {
-        show: true,
-      },
-      type: "value",
-      splitLine: {
-        show: true,
-      },
-      axisLine: {
-        show: true,
-      },
-      axisTick: {
-        show: true,
-      },
-    },
+    ...hiddenAxises,
     series: [
       {
         type: "custom",
@@ -502,16 +533,7 @@ const getMdOption = (
       },
       {
         data: pieData,
-        type: "pie",
-        color: pieColors,
-        label: {
-          show: false,
-        },
-        emptyCircleStyle: {
-          color: "#6C7080",
-        },
-        center: ["25%", "50%"],
-        radius: [51, 91],
+        ...pieSeries,
       },
     ],
     grid: {
@@ -526,34 +548,12 @@ const getLgOption = (
   pieData: any,
   pieLegendData: any,
   questionImage: string,
-  optionWithImageHeight: number,
   optionHeights: number[],
   optionsWithImagesLines: number[]
 ) => ({
-  tooltip: {
-    trigger: "item",
-  },
+  tooltip: pieTooltip,
   backgroundColor: "#222430",
-  xAxis: {
-    splitLine: {
-      show: false,
-    },
-  },
-  yAxis: {
-    axisLabel: {
-      show: false,
-    },
-    type: "value",
-    splitLine: {
-      show: false,
-    },
-    axisLine: {
-      show: false,
-    },
-    axisTick: {
-      show: false,
-    },
-  },
+  ...hiddenAxises,
   series: [
     {
       type: "custom",
@@ -565,7 +565,6 @@ const getLgOption = (
           param,
           api,
           questionImage,
-          pieData.length,
           optionHeights,
           optionsWithImagesLines
         ),
@@ -573,16 +572,7 @@ const getLgOption = (
     },
     {
       data: pieData,
-      type: "pie",
-      color: pieColors,
-      label: {
-        show: false,
-      },
-      emptyCircleStyle: {
-        color: "#6C7080",
-      },
-      center: ["25%", "50%"],
-      radius: [51, 91],
+      ...pieSeries,
     },
   ],
   grid: {
@@ -653,7 +643,6 @@ const PieChartContainer = styled("div")<{
   return {
     position: "relative",
     width,
-    // border: "1px solid slateblue",
     boxSizing: "border-box",
     height:
       size === "large"
@@ -671,7 +660,6 @@ export default function Home() {
     useState<PieLegend>(customSeriesData);
   const [questionImage, setQuestionImage] = useState(imageUrl);
   const [isChartDownloading, setIsChartDownloading] = useState(false);
-  const withImageOptions = true;
   const optionsWithImagesMaxLines: number = pieData.reduce(
     (total: number, current: any) => {
       const { value, name } = current;
@@ -689,7 +677,7 @@ export default function Home() {
     (total: number[], current: any) => {
       const { value, name } = current;
       const linesCount = breakWord(
-        `${value}% ${name}`,
+        `${name}`,
         imageUrl
           ? L_LEGEND_WITH_IMAGE_MAX_SYMBOLS_COUNT
           : L_LEGEND_MAX_SYMBOLS_COUNT
@@ -699,22 +687,17 @@ export default function Home() {
     },
     []
   );
-  console.log("* optionsWithImagesLines", optionsWithImagesLines);
-  const L_MAX_LINES = Math.floor(OPTION_IMAGE_HEIGHT / TEXT_LINE_HEIGHT);
+  const L_MAX_LINES = Math.floor(OPTION_IMAGE_SIDE / TEXT_LINE_HEIGHT);
   const optionHeights = optionsWithImagesLines.map((lines) => {
     if (lines > L_MAX_LINES) {
-      return lines * TEXT_LINE_HEIGHT + IMAGE_OPTION_MARGIN_BOTTOM;
+      return lines * TEXT_LINE_HEIGHT + OPTION_IMAGE_MARGIN_BOTTOM;
     }
-    return OPTION_IMAGE_HEIGHT + IMAGE_OPTION_MARGIN_BOTTOM;
+    return OPTION_IMAGE_SIDE + OPTION_IMAGE_MARGIN_BOTTOM;
   });
 
   const lContainerHeight =
     optionHeights.reduce((total, height) => (total += height), 0) -
-    IMAGE_OPTION_MARGIN_BOTTOM;
-
-  // console.log("optionsWithImagesLines", optionsWithImagesLines);
-  console.log("optionHeights", optionHeights);
-  // console.log("lContainerHeight", lContainerHeight); // 428
+    OPTION_IMAGE_MARGIN_BOTTOM;
 
   const downloadChart = async (chartInstance: ECharts) => {
     const url = await getSvgBlob(chartInstance);
@@ -727,38 +710,38 @@ export default function Home() {
   };
   const saveAsImage = useCallback(async () => {
     // if (chartInstance) {
-    if (withImageOptions) {
-      // upload base64 images
-      const base64Promises: Promise<string>[] = [];
-      for (const url of pieLegendData) {
-        base64Promises.push(urlToBase64(url[3] as string));
-      }
-      if (imageUrl) {
-        const questionImageBase64 = urlToBase64(imageUrl);
-        base64Promises.push(questionImageBase64);
-      }
-      const getBase64Promises = async () =>
-        await Promise.all(base64Promises).then((values) => values);
+    // if (withImageOptions) {
+    // upload base64 images
+    const base64Promises: Promise<string>[] = [];
+    for (const url of pieLegendData) {
+      base64Promises.push(urlToBase64(url[3] as string));
+    }
+    if (imageUrl) {
+      const questionImageBase64 = urlToBase64(imageUrl);
+      base64Promises.push(questionImageBase64);
+    }
+    const getBase64Promises = async () =>
+      await Promise.all(base64Promises).then((values) => values);
 
-      const base64Urls = await getBase64Promises();
-      if (base64Urls.length) {
-        const imagesArr = pieLegendData.map((item) => item[3]);
-        const base64Images = imagesArr.map((imageUrl, idx) => base64Urls[idx]);
-        setPieLegendData((prev) => {
-          return prev.map((prevItem, idx) => [
-            ...prevItem.slice(0, 3),
-            base64Images[idx],
-          ]);
-        });
-        setQuestionImage(base64Urls[base64Urls.length - 1]);
-        setIsChartDownloading(true);
-      }
-      return;
+    const base64Urls = await getBase64Promises();
+    if (base64Urls.length) {
+      const imagesArr = pieLegendData.map((item) => item[3]);
+      const base64Images = imagesArr.map((imageUrl, idx) => base64Urls[idx]);
+      setPieLegendData((prev) => {
+        return prev.map((prevItem, idx) => [
+          ...prevItem.slice(0, 3),
+          base64Images[idx],
+        ]);
+      });
+      setQuestionImage(base64Urls[base64Urls.length - 1]);
+      setIsChartDownloading(true);
+      // }
+      // return;
     }
     // save as svg without option images
     // downloadChart(chartInstance);
     // }
-  }, [pieLegendData, withImageOptions]);
+  }, [pieLegendData]);
 
   const onRenderEnded = useCallback(
     (chartInstance: ECharts) => {
@@ -773,20 +756,11 @@ export default function Home() {
     },
     [isChartDownloading, pieLegendData]
   );
-  const maxLinesHeight =
-    optionsWithImagesMaxLines * TEXT_LINE_HEIGHT + IMAGE_OPTION_MARGIN_BOTTOM;
-  const defaultImageOptionHeight =
-    OPTION_IMAGE_HEIGHT + IMAGE_OPTION_MARGIN_BOTTOM;
-  const optionWithImageHeight =
-    maxLinesHeight < defaultImageOptionHeight
-      ? defaultImageOptionHeight
-      : maxLinesHeight;
 
   const option = getLgOption(
     pieData,
     pieLegendData,
     questionImage,
-    optionWithImageHeight,
     optionHeights,
     optionsWithImagesLines
   );
@@ -800,14 +774,7 @@ export default function Home() {
       <PieChartContainer
         size={size}
         ref={containerRef}
-        height={
-          size === "large"
-            ? withImageOptions
-              ? lContainerHeight
-              : // pieData.length * optionWithImageHeight
-                pieData.length * 60
-            : barContainerHeights[size]
-        }
+        height={size === "large" ? lContainerHeight : barContainerHeights[size]}
       >
         <ReactECharts
           onRenderEnded={onRenderEnded}
