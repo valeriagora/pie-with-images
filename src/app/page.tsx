@@ -42,12 +42,12 @@ const pieData = [
   { value: 5, name: "Option 4" },
 ];
 const images = [
-  // "https://plus.unsplash.com/premium_photo-1697695568731-5b351d7aca4b?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  "https://plus.unsplash.com/premium_photo-1697695568731-5b351d7aca4b?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   "https://images.unsplash.com/photo-1682685797140-c17807f8f217?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   "https://images.unsplash.com/photo-1682685797857-97de838c192e?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   "https://images.unsplash.com/photo-1682695796497-31a44224d6d6?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   "https://images.unsplash.com/photo-1704107116952-978a5712566c?q=80&w=2938&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://plus.unsplash.com/premium_photo-1663946448065-967d72d58b4f?q=80&w=2875&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  // "https://plus.unsplash.com/premium_photo-1663946448065-967d72d58b4f?q=80&w=2875&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   // "https://images.unsplash.com/photo-1705179573286-495f1b4fabaf?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 ];
 type PieLegend = [number, number, string, string][];
@@ -174,7 +174,6 @@ const renderLegendItem = (
   optionHeights: number[],
   optionsWithImagesLines: number[]
 ) => {
-  console.log(param.coordSys);
   const itemsLength = optionHeights.length;
   const xAxisStartPx = param.coordSys.x;
   const [_, ySizePx] = api.size([1, 1]) as number[];
@@ -217,7 +216,6 @@ const renderLegendItem = (
     OPTION_IMAGE_MARGIN_RIGHT +
     CIRCLE_ICON_RADIUS;
   const percentsX = iconX + CIRCLE_ICON_RADIUS + CIRCLE_ICON_MARGIN_RIGHT;
-
   return {
     type: "group",
     silent: true,
@@ -330,6 +328,9 @@ const renderMdLegendItem = (
   const xAxisStartPx = param.coordSys.x;
   const [_, ySizePx] = api.size([1, 1]) as number[];
   const iconColor = getLegendIconColor(pieColors, param.dataIndex);
+  const percents = api.value(0);
+  const label = api.value(2);
+  const imageOptionUrl = api.value(3);
   const overflowDots = hasOverflow
     ? [
         {
@@ -392,12 +393,19 @@ const renderMdLegendItem = (
     M_GRID_TOP_PADDING +
       (OPTION_IMAGE_SIDE + OPTION_IMAGE_MARGIN_BOTTOM) * param.dataIndex,
   ];
-  const textWithOverflow = truncate(
-    api.value(2),
+  const truncatedText = truncate(
+    label as string,
     questionImageUrl
       ? M_LEGEND_WITH_IMAGE_MAX_SYMBOLS_COUNT
       : M_LEGEND_MAX_SYMBOLS_COUNT
   );
+
+  const iconX =
+    xAxisStartPx +
+    OPTION_IMAGE_SIDE +
+    OPTION_IMAGE_MARGIN_RIGHT +
+    CIRCLE_ICON_RADIUS;
+  const percentsX = iconX + CIRCLE_ICON_RADIUS + CIRCLE_ICON_MARGIN_RIGHT;
   return {
     type: "group",
     silent: true,
@@ -407,35 +415,21 @@ const renderMdLegendItem = (
       {
         type: "text",
         style: {
-          text: `${api.value(0)}%`,
+          text: `${percents}%`,
           ...legendTextStyles,
           fill: "#fff",
         },
-        position: [
-          xAxisStartPx +
-            OPTION_IMAGE_SIDE +
-            OPTION_IMAGE_MARGIN_RIGHT +
-            CIRCLE_ICON_RADIUS * 2 +
-            CIRCLE_ICON_MARGIN_RIGHT,
-          itemsLength === 1
-            ? ySizePx / 2 - TEXT_LINE_HEIGHT / 2
-            : labelYPositions[itemsLength],
-        ],
+        position: [percentsX, labelYPositions[itemsLength]],
       },
       {
         type: "text",
         style: {
-          text: textWithOverflow,
+          text: truncatedText,
           ...legendTextStyles,
           fill: "#c8cad0",
         },
         position: [
-          MAX_PERCENTS_TEXT_WIDTH +
-            xAxisStartPx +
-            OPTION_IMAGE_SIDE +
-            OPTION_IMAGE_MARGIN_RIGHT +
-            CIRCLE_ICON_RADIUS * 2 +
-            CIRCLE_ICON_MARGIN_RIGHT,
+          MAX_PERCENTS_TEXT_WIDTH + percentsX,
           labelYPositions[itemsLength],
         ],
       },
@@ -455,10 +449,10 @@ const renderMdLegendItem = (
         type: "image",
         style: {
           x: 0,
-          image: api.value(3),
+          image: imageOptionUrl,
           y: 1,
-          width: 72,
-          height: 72,
+          width: OPTION_IMAGE_SIDE,
+          height: OPTION_IMAGE_SIDE,
         },
         position: [xAxisStartPx, coverYPositions[itemsLength]],
       },
@@ -472,13 +466,7 @@ const renderMdLegendItem = (
         style: {
           fill: iconColor,
         },
-        position: [
-          xAxisStartPx +
-            OPTION_IMAGE_SIDE +
-            OPTION_IMAGE_MARGIN_RIGHT +
-            CIRCLE_ICON_RADIUS,
-          iconYPositions[itemsLength],
-        ],
+        position: [iconX, iconYPositions[itemsLength]],
       },
     ],
   };
