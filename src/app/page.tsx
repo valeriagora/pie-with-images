@@ -7,8 +7,9 @@ import {
   ECharts,
 } from "echarts";
 import { Button, styled } from "@mui/material";
-import { useCallback, useRef, useState } from "react";
-
+import { useCallback, useEffect, useRef, useState } from "react";
+import svg1 from "../../infoIcon.svg";
+console.log(svg1.src);
 const pieColors = [
   "#FF877C",
   "#25B4C8",
@@ -22,14 +23,14 @@ const pieData = [
   //   value: 10,
   //   name: "Search Engine Search Engine Engine Search Engine Search Engine",
   // },
-  // {
-  //   value: 20,
-  //   name: "Engine Search Engine Search Engine",
-  // },
   {
-    value: 25,
-    name: "Other Search Engine Search Engine Search Search Engine Search Engine Search Engine Search Engine  ",
+    value: 20,
+    name: "Engine Search Engine Search Engine",
   },
+  // {
+  //   value: 25,
+  //   name: "Other Search Engine Search Engine Search Search Engine Search Engine Search Engine Search Engine  ",
+  // },
   {
     value: 15,
     name: "Option 1 Option 1",
@@ -39,14 +40,14 @@ const pieData = [
     name: "Option 2 Option 2 Option 2 Option 2 Option 2Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2",
   },
   { value: 3, name: "Option 3 Option 3 Option 3 Option 3 " },
-  { value: 5, name: "Option 4" },
+  // { value: 5, name: "Option 4" },
 ];
 const images = [
   "https://plus.unsplash.com/premium_photo-1697695568731-5b351d7aca4b?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   "https://images.unsplash.com/photo-1682685797140-c17807f8f217?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   "https://images.unsplash.com/photo-1682685797857-97de838c192e?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   "https://images.unsplash.com/photo-1682695796497-31a44224d6d6?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1704107116952-978a5712566c?q=80&w=2938&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
+  // "https://images.unsplash.com/photo-1704107116952-978a5712566c?q=80&w=2938&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   // "https://plus.unsplash.com/premium_photo-1663946448065-967d72d58b4f?q=80&w=2875&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
   // "https://images.unsplash.com/photo-1705179573286-495f1b4fabaf?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
 ];
@@ -57,6 +58,7 @@ const customSeriesData: PieLegend = pieData.map(({ value, name }, idx) => [
   name,
   images[idx],
 ]);
+console.log("customSeriesData", customSeriesData);
 
 function breakWord(string: string, symbolsCount: number) {
   const splittedBySpacing = string.split(" ");
@@ -84,6 +86,7 @@ const OPTION_IMAGE_SIDE = 72;
 const OPTION_IMAGE_MARGIN_RIGHT = 8;
 const OPTION_IMAGE_MARGIN_BOTTOM = 8;
 const CIRCLE_ICON_MARGIN_RIGHT = 4;
+const CIRCLE_ICON_S_MARGIN_LEFT = 4;
 const CIRCLE_ICON_RADIUS = 6;
 // break word for L charts
 const L_LEGEND_MAX_SYMBOLS_COUNT = 50;
@@ -136,7 +139,6 @@ const getQuestionImage = (
   coordSysHeight: number,
   size: string
 ) => {
-  const gridTopPadding = size === "medium" ? M_GRID_BOTTOM_PADDING : 0;
   const chartWidth = size === "medium" ? M_CHART_WIDTH : L_CHART_WIDTH;
   return [
     {
@@ -145,7 +147,7 @@ const getQuestionImage = (
         width: QUESTION_IMAGE_SIDE,
         height: QUESTION_IMAGE_SIDE,
         x: chartWidth - QUESTION_IMAGE_SIDE,
-        y: gridTopPadding + (coordSysHeight - QUESTION_IMAGE_SIDE) / 2,
+        y: (coordSysHeight - QUESTION_IMAGE_SIDE) / 2,
       },
       style: {
         fill: "#1a1a25",
@@ -162,7 +164,7 @@ const getQuestionImage = (
       },
       position: [
         chartWidth - QUESTION_IMAGE_SIDE,
-        (coordSysHeight - QUESTION_IMAGE_SIDE) / 2 + gridTopPadding,
+        (coordSysHeight - QUESTION_IMAGE_SIDE) / 2,
       ],
     },
   ];
@@ -182,7 +184,8 @@ const renderLegendItem = (
     ? getQuestionImage(
         questionImageUrl,
         (param.coordSys as any).height,
-        "large"
+        "large",
+        0
       )
     : [];
   const percents = api.value(0);
@@ -203,19 +206,22 @@ const renderLegendItem = (
   let yImageCenter =
     prevOptionHeightsSum +
     (optionHeights[param.dataIndex] - OPTION_IMAGE_MARGIN_BOTTOM) / 2;
-  const yImage =
+  const coverY =
     prevOptionHeightsSum +
     (optionHeights[param.dataIndex] - OPTION_IMAGE_MARGIN_BOTTOM) / 2 -
     OPTION_IMAGE_SIDE / 2;
   const labelY =
-    yImageCenter -
-    (optionsWithImagesLines[param.dataIndex] * TEXT_LINE_HEIGHT) / 2;
+    itemsLength === 1
+      ? ySizePx / 2 - (labelChunks.length * TEXT_LINE_HEIGHT) / 2
+      : yImageCenter -
+        (optionsWithImagesLines[param.dataIndex] * TEXT_LINE_HEIGHT) / 2;
   const iconX =
     xAxisStartPx +
     OPTION_IMAGE_SIDE +
     OPTION_IMAGE_MARGIN_RIGHT +
     CIRCLE_ICON_RADIUS;
   const percentsX = iconX + CIRCLE_ICON_RADIUS + CIRCLE_ICON_MARGIN_RIGHT;
+  const labelX = MAX_PERCENTS_TEXT_WIDTH + percentsX;
   return {
     type: "group",
     silent: true,
@@ -242,12 +248,7 @@ const renderLegendItem = (
           ...legendTextStyles,
           fill: "#c8cad0",
         },
-        position: [
-          MAX_PERCENTS_TEXT_WIDTH + percentsX,
-          itemsLength === 1
-            ? ySizePx / 2 - (labelChunks.length * TEXT_LINE_HEIGHT) / 2
-            : labelY,
-        ],
+        position: [labelX, labelY],
       },
       {
         type: RECTANGLE_WITH_RADIUS_CUSTOM_SHAPE,
@@ -255,7 +256,7 @@ const renderLegendItem = (
           width: OPTION_IMAGE_SIDE,
           height: OPTION_IMAGE_SIDE,
           x: xAxisStartPx,
-          y: itemsLength === 1 ? ySizePx / 2 - OPTION_IMAGE_SIDE / 2 : yImage,
+          y: itemsLength === 1 ? ySizePx / 2 - OPTION_IMAGE_SIDE / 2 : coverY,
         },
         style: {
           fill: "#1a1a25",
@@ -272,7 +273,7 @@ const renderLegendItem = (
         },
         position: [
           xAxisStartPx,
-          itemsLength === 1 ? ySizePx / 2 - OPTION_IMAGE_SIDE / 2 : yImage,
+          itemsLength === 1 ? ySizePx / 2 - OPTION_IMAGE_SIDE / 2 : coverY,
         ],
       },
       {
@@ -293,28 +294,28 @@ const renderLegendItem = (
 const hiddenAxises = {
   xAxis: {
     splitLine: {
-      show: false,
+      show: true,
     },
     axisTick: {
-      show: false,
+      show: true,
     },
     axisLine: {
-      show: false,
+      show: true,
     },
   },
   yAxis: {
     axisLabel: {
-      show: false,
+      show: true,
     },
     type: "value",
     splitLine: {
-      show: false,
+      show: true,
     },
     axisLine: {
-      show: false,
+      show: true,
     },
     axisTick: {
-      show: false,
+      show: true,
     },
   },
 };
@@ -347,6 +348,11 @@ const renderMdLegendItem = (
         },
       ]
     : [];
+  const verticalPadding =
+    (barContainerHeights.medium -
+      itemsLength * OPTION_IMAGE_SIDE -
+      (itemsLength - 1) * OPTION_IMAGE_MARGIN_BOTTOM) /
+    2;
   const questionImage = questionImageUrl
     ? getQuestionImage(
         questionImageUrl,
@@ -354,45 +360,14 @@ const renderMdLegendItem = (
         "medium"
       )
     : [];
-  const labelYPositions = [
-    null,
-    -TEXT_LINE_HEIGHT / 2 + M_GRID_TOP_PADDING + ySizePx / 2,
-    -TEXT_LINE_HEIGHT / 2 +
-      M_GRID_TOP_PADDING +
-      (ySizePx / 2) * (param.dataIndex + 1) +
-      ySizePx / 4,
-    -TEXT_LINE_HEIGHT / 2 +
-      M_GRID_TOP_PADDING +
-      (param.dataIndex + 1) * (ySizePx * 0.75),
-    -TEXT_LINE_HEIGHT / 2 +
-      M_GRID_TOP_PADDING +
-      ySizePx / 2 +
-      ySizePx * param.dataIndex,
-  ];
-  const iconYPositions = [
-    null,
-    M_GRID_TOP_PADDING + ySizePx / 2,
-    (param.dataIndex + 1) * (ySizePx / 2) + ySizePx / 4 + M_GRID_TOP_PADDING,
-    M_GRID_TOP_PADDING + (param.dataIndex + 1) * (ySizePx * 0.75),
-    M_GRID_TOP_PADDING + ySizePx / 2 + ySizePx * param.dataIndex,
-  ];
-  const coverYPositions = [
-    null,
-    M_GRID_TOP_PADDING + ySizePx / 2 - OPTION_IMAGE_SIDE / 2,
-    (param.dataIndex + 1) * (ySizePx / 2) +
-      M_GRID_TOP_PADDING +
-      OPTION_IMAGE_MARGIN_BOTTOM / 2,
-    M_GRID_TOP_PADDING +
-      ySizePx * 1.5 -
-      OPTION_IMAGE_SIDE / 2 -
-      (param.dataIndex
-        ? param.dataIndex === 1
-          ? 0
-          : OPTION_IMAGE_SIDE + OPTION_IMAGE_MARGIN_BOTTOM / 2
-        : -OPTION_IMAGE_SIDE - OPTION_IMAGE_MARGIN_BOTTOM / 2),
-    M_GRID_TOP_PADDING +
-      (OPTION_IMAGE_SIDE + OPTION_IMAGE_MARGIN_BOTTOM) * param.dataIndex,
-  ];
+  const coverY =
+    verticalPadding +
+    param.dataIndex * (OPTION_IMAGE_SIDE + OPTION_IMAGE_MARGIN_BOTTOM);
+  const iconY =
+    verticalPadding +
+    param.dataIndex * (OPTION_IMAGE_SIDE + OPTION_IMAGE_MARGIN_BOTTOM) +
+    OPTION_IMAGE_SIDE / 2;
+  const labelY = iconY - TEXT_LINE_HEIGHT / 2;
   const truncatedText = truncate(
     label as string,
     questionImageUrl
@@ -419,7 +394,7 @@ const renderMdLegendItem = (
           ...legendTextStyles,
           fill: "#fff",
         },
-        position: [percentsX, labelYPositions[itemsLength]],
+        position: [percentsX, labelY],
       },
       {
         type: "text",
@@ -428,10 +403,7 @@ const renderMdLegendItem = (
           ...legendTextStyles,
           fill: "#c8cad0",
         },
-        position: [
-          MAX_PERCENTS_TEXT_WIDTH + percentsX,
-          labelYPositions[itemsLength],
-        ],
+        position: [MAX_PERCENTS_TEXT_WIDTH + percentsX, labelY],
       },
       {
         type: RECTANGLE_WITH_RADIUS_CUSTOM_SHAPE,
@@ -439,7 +411,7 @@ const renderMdLegendItem = (
           width: OPTION_IMAGE_SIDE,
           height: OPTION_IMAGE_SIDE,
           x: xAxisStartPx,
-          y: coverYPositions[itemsLength],
+          y: coverY,
         },
         style: {
           fill: "#1a1a25",
@@ -454,7 +426,7 @@ const renderMdLegendItem = (
           width: OPTION_IMAGE_SIDE,
           height: OPTION_IMAGE_SIDE,
         },
-        position: [xAxisStartPx, coverYPositions[itemsLength]],
+        position: [xAxisStartPx, coverY],
       },
       {
         type: "circle",
@@ -466,7 +438,84 @@ const renderMdLegendItem = (
         style: {
           fill: iconColor,
         },
-        position: [iconX, iconYPositions[itemsLength]],
+        position: [iconX, iconY],
+      },
+    ],
+  };
+};
+const renderSmLegendItem = (
+  param: CustomSeriesRenderItemParams,
+  api: CustomSeriesRenderItemAPI,
+  itemsLength: number,
+  hasOverflow: boolean
+) => {
+  const xAxisStartPx = param.coordSys.x;
+  const [_, ySizePx] = api.size([1, 1]) as number[];
+  const iconColor = getLegendIconColor(pieColors, param.dataIndex);
+  const percents = api.value(0);
+  const label = api.value(2);
+  const overflowDots = hasOverflow
+    ? [
+        {
+          type: "text",
+          style: {
+            text: "...",
+            ...legendTextStyles,
+            fill: "#c8cad0",
+          },
+          position: [
+            1.5 * xAxisStartPx,
+            M_GRID_TOP_PADDING - TEXT_LINE_HEIGHT / 2 + ySizePx * 4,
+          ],
+        },
+      ]
+    : [];
+  const truncatedText = truncate(label as string, 11);
+
+  const iconX = xAxisStartPx + CIRCLE_ICON_RADIUS + CIRCLE_ICON_S_MARGIN_LEFT;
+  const iconY =
+    (barContainerHeights.small - itemsLength * TEXT_LINE_HEIGHT) / 2 +
+    TEXT_LINE_HEIGHT / 2 +
+    param.dataIndex * TEXT_LINE_HEIGHT;
+  const percentsX = iconX + CIRCLE_ICON_RADIUS + CIRCLE_ICON_MARGIN_RIGHT;
+  const labelX = MAX_PERCENTS_TEXT_WIDTH + percentsX;
+  const labelY =
+    (barContainerHeights.small - itemsLength * TEXT_LINE_HEIGHT) / 2 +
+    param.dataIndex * TEXT_LINE_HEIGHT;
+  return {
+    type: "group",
+    silent: true,
+    children: [
+      ...overflowDots,
+      {
+        type: "text",
+        style: {
+          text: `${percents}%`,
+          ...legendTextStyles,
+          fill: "#fff",
+        },
+        position: [percentsX, labelY],
+      },
+      {
+        type: "text",
+        style: {
+          text: truncatedText,
+          ...legendTextStyles,
+          fill: "#c8cad0",
+        },
+        position: [labelX, labelY],
+      },
+      {
+        type: "circle",
+        shape: {
+          cx: 0,
+          cy: 0,
+          r: 6,
+        },
+        style: {
+          fill: iconColor,
+        },
+        position: [iconX, iconY],
       },
     ],
   };
@@ -490,6 +539,39 @@ const pieSeries = {
   },
   center: ["25%", "50%"],
   radius: [51, 91],
+  name: "pie-series",
+};
+export const getSmOption = (pieData: any, pieLegendData: any) => {
+  const hasOverflow = pieData.length > 5;
+  const data = hasOverflow ? pieData.slice(0, 4) : pieData;
+  const legendData = hasOverflow ? pieLegendData.slice(0, 4) : pieLegendData;
+  return {
+    tooltip: pieTooltip,
+    backgroundColor: "#222430",
+    ...hiddenAxises,
+    grid: {
+      right: 0,
+      top: 0,
+      bottom: 0,
+      left: 132,
+    },
+    series: [
+      {
+        type: "custom",
+        renderItem: (
+          param: CustomSeriesRenderItemParams,
+          api: CustomSeriesRenderItemAPI
+        ) => renderSmLegendItem(param, api, data.length, hasOverflow),
+        data: legendData,
+      },
+      {
+        ...pieSeries,
+        center: ["60px", "50%"],
+        radius: [40, 56],
+        data,
+      },
+    ],
+  };
 };
 const getMdOption = (
   pieData: any,
@@ -527,8 +609,10 @@ const getMdOption = (
     grid: {
       left: "50%",
       right: 1,
-      top: M_GRID_TOP_PADDING,
-      bottom: M_GRID_BOTTOM_PADDING,
+      top: 0,
+      bottom: 0,
+      // top: M_GRID_TOP_PADDING,
+      // bottom: M_GRID_BOTTOM_PADDING,
     },
   };
 };
@@ -593,6 +677,7 @@ const getBase64Image = (url: string): Promise<string> => {
     img.onerror = (error) => reject(error);
   });
 };
+
 async function blobToBase64(blob: Blob): Promise<string> {
   return new Promise((resolve, _) => {
     const reader = new FileReader();
@@ -614,8 +699,8 @@ const getSvgBlob = async (chartInstance: ECharts) => {
 const MIN_L_CHART_HEIGHT = 188;
 
 const barContainerHeights = {
-  small: 124,
-  medium: 328,
+  small: 120,
+  medium: 336, // 328
   large: "auto",
 };
 const barContainerWidth = {
@@ -640,6 +725,7 @@ const PieChartContainer = styled("div")<{
         : barContainerHeights[size],
   };
 });
+
 const imageUrl =
   "https://images.unsplash.com/photo-1682695798522-6e208131916d?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
 export default function Home() {
@@ -661,6 +747,7 @@ export default function Home() {
     },
     0
   );
+
   const optionsWithImagesLines = pieData.reduce(
     (total: number[], current: any) => {
       const { value, name } = current;
@@ -745,6 +832,8 @@ export default function Home() {
     [isChartDownloading, pieLegendData]
   );
 
+  // const option = getSmOption(pieData, pieLegendData);
+  // const option = getMdOption(pieData, pieLegendData, questionImage);
   const option = getLgOption(
     pieData,
     pieLegendData,
@@ -753,7 +842,6 @@ export default function Home() {
     optionsWithImagesLines
   );
 
-  // const option = getMdOption(pieData, pieLegendData, questionImage);
   const size = "large";
 
   return (

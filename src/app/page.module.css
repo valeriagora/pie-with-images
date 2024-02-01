@@ -1,3 +1,5 @@
+@import url("https://fonts.googleapis.com/css2?family=Manrope:wght@100;200;300;400;500;600&display=swap");
+
 .largeCard {
   position: relative;
   margin: 20px;
@@ -10,7 +12,7 @@
   position: relative;
   margin: 20px;
   width: 616px;
-  height: 328px;
+  height: 344px;
   border: 2px solid lightyellow;
   /* min-height: 320px; */
   background: #222430;
