@@ -9,7 +9,7 @@ import {
 import { Button, styled } from "@mui/material";
 import { useCallback, useRef, useState } from "react";
 import svg1 from "../../infoIcon.svg";
-console.log(svg1.src);
+
 const pieColors = [
   "#FF877C",
   "#25B4C8",
@@ -33,14 +33,20 @@ const pieData = [
   },
   {
     value: 15,
-    name: "Option 1 Option 1",
+    name: "Option 1 Option 1 Test test test test test test Test test test test test test Test test test test test test Test test test test test test Test test test test test test",
   },
   {
     value: 2,
-    name: "Option 2 Option 2 Option 2 Option 2 Option 2Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2",
+    name: "Option 2  Test test test test test test Option 2 Option 2 Option 2 Option 2Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2 Option 2",
   },
-  { value: 3, name: "Option 3 Option 3 Option 3 Option 3 " },
-  { value: 5, name: "Option 4" },
+  {
+    value: 3,
+    name: "Option 3",
+  },
+  {
+    value: 5,
+    name: "Option 4 Test test test test test test  Test test test test test test  Test test test test test test  Test test test test test test  Test test test test test test",
+  },
 ];
 const images = [
   "https://plus.unsplash.com/premium_photo-1697695568731-5b351d7aca4b?q=80&w=2787&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
@@ -166,12 +172,13 @@ const getQuestionImage = (
     },
   ];
 };
-const renderLegendItem = (
+const renderLgLegendItem = (
   param: CustomSeriesRenderItemParams,
   api: CustomSeriesRenderItemAPI,
   questionImageUrl: string,
   optionHeights: number[],
-  optionsWithImagesLines: number[]
+  optionsWithImagesLines: number[],
+  containerHeight: number
 ) => {
   const itemsLength = optionHeights.length;
   const xAxisStartPx = param.coordSys.x;
@@ -181,8 +188,7 @@ const renderLegendItem = (
     ? getQuestionImage(
         questionImageUrl,
         (param.coordSys as any).height,
-        "large",
-        0
+        "large"
       )
     : [];
   const percents = api.value(0);
@@ -196,21 +202,37 @@ const renderLegendItem = (
   );
   const prevOptionHeightsSum = optionHeights.reduce((total, current, idx) => {
     if (idx < param.dataIndex) {
-      total += current;
+      const optionMarginBottom =
+        idx === optionHeights.length ? 0 : OPTION_IMAGE_MARGIN_BOTTOM;
+      total += current + optionMarginBottom;
     }
     return total;
   }, 0);
-  let yImageCenter =
-    prevOptionHeightsSum +
-    (optionHeights[param.dataIndex] - OPTION_IMAGE_MARGIN_BOTTOM) / 2;
+  const optionsHeightSum =
+    optionHeights.reduce((total, current) => total + current, 0) +
+    (optionHeights.length - 1) * OPTION_IMAGE_MARGIN_BOTTOM;
+  const chartVerticalPadding = (containerHeight - optionsHeightSum) / 2;
+  const currentOptionVerticalPadding =
+    (optionHeights[param.dataIndex] - 72) / 2;
+  let optionCenterY =
+    itemsLength === 1
+      ? prevOptionHeightsSum +
+        (optionHeights[param.dataIndex] - OPTION_IMAGE_MARGIN_BOTTOM) / 2
+      : chartVerticalPadding +
+        prevOptionHeightsSum +
+        currentOptionVerticalPadding +
+        OPTION_IMAGE_SIDE / 2;
   const coverY =
-    prevOptionHeightsSum +
-    (optionHeights[param.dataIndex] - OPTION_IMAGE_MARGIN_BOTTOM) / 2 -
-    OPTION_IMAGE_SIDE / 2;
+    itemsLength === 1
+      ? prevOptionHeightsSum +
+        (optionHeights[param.dataIndex] - OPTION_IMAGE_MARGIN_BOTTOM) / 2 -
+        OPTION_IMAGE_SIDE / 2
+      : optionCenterY - 72 / 2;
+
   const labelY =
     itemsLength === 1
       ? ySizePx / 2 - (labelChunks.length * TEXT_LINE_HEIGHT) / 2
-      : yImageCenter -
+      : optionCenterY -
         (optionsWithImagesLines[param.dataIndex] * TEXT_LINE_HEIGHT) / 2;
   const iconX =
     xAxisStartPx +
@@ -235,7 +257,7 @@ const renderLegendItem = (
           percentsX,
           itemsLength === 1
             ? ySizePx / 2 - TEXT_LINE_HEIGHT / 2
-            : yImageCenter - TEXT_LINE_HEIGHT / 2,
+            : optionCenterY - TEXT_LINE_HEIGHT / 2,
         ],
       },
       {
@@ -283,7 +305,7 @@ const renderLegendItem = (
         style: {
           fill: iconColor,
         },
-        position: [iconX, itemsLength === 1 ? ySizePx / 2 : yImageCenter],
+        position: [iconX, itemsLength === 1 ? ySizePx / 2 : optionCenterY],
       },
     ],
   };
@@ -291,28 +313,28 @@ const renderLegendItem = (
 const hiddenAxises = {
   xAxis: {
     splitLine: {
-      show: true,
+      show: false,
     },
     axisTick: {
-      show: true,
+      show: false,
     },
     axisLine: {
-      show: true,
+      show: false,
     },
   },
   yAxis: {
     axisLabel: {
-      show: true,
+      show: false,
     },
     type: "value",
     splitLine: {
-      show: true,
+      show: false,
     },
     axisLine: {
-      show: true,
+      show: false,
     },
     axisTick: {
-      show: true,
+      show: false,
     },
   },
 };
@@ -573,7 +595,8 @@ const getLgOption = (
   pieLegendData: any,
   questionImage: string,
   optionHeights: number[],
-  optionsWithImagesLines: number[]
+  optionsWithImagesLines: number[],
+  containerHeight: number
 ) => ({
   tooltip: pieTooltip,
   backgroundColor: "#222430",
@@ -585,12 +608,13 @@ const getLgOption = (
         param: CustomSeriesRenderItemParams,
         api: CustomSeriesRenderItemAPI
       ) =>
-        renderLegendItem(
+        renderLgLegendItem(
           param,
           api,
           questionImage,
           optionHeights,
-          optionsWithImagesLines
+          optionsWithImagesLines,
+          containerHeight
         ),
       data: pieLegendData,
     },
@@ -678,8 +702,8 @@ const PieChartContainer = styled("div")<{
   };
 });
 
-const imageUrl =
-  "https://images.unsplash.com/photo-1682695798522-6e208131916d?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
+const imageUrl = "";
+// "https://images.unsplash.com/photo-1682695798522-6e208131916d?q=80&w=2940&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDF8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D";
 export default function Home() {
   const containerRef = useRef(null);
   const [pieLegendData, setPieLegendData] =
@@ -717,14 +741,16 @@ export default function Home() {
   const L_MAX_LINES = Math.floor(OPTION_IMAGE_SIDE / TEXT_LINE_HEIGHT);
   const optionHeights = optionsWithImagesLines.map((lines) => {
     if (lines > L_MAX_LINES) {
-      return lines * TEXT_LINE_HEIGHT + OPTION_IMAGE_MARGIN_BOTTOM;
+      return lines * TEXT_LINE_HEIGHT;
     }
-    return OPTION_IMAGE_SIDE + OPTION_IMAGE_MARGIN_BOTTOM;
+    return OPTION_IMAGE_SIDE;
   });
 
-  const lContainerHeight =
-    optionHeights.reduce((total, height) => (total += height), 0) -
-    OPTION_IMAGE_MARGIN_BOTTOM;
+  const containerHeight =
+    optionHeights.reduce((total, height) => (total += height), 0) +
+    OPTION_IMAGE_MARGIN_BOTTOM * (optionHeights.length - 1);
+  const lContainerHeight = containerHeight < 188 ? 188 : containerHeight;
+  console.log("lContainerHeight", lContainerHeight);
 
   const downloadChart = async (chartInstance: ECharts) => {
     const url = await getSvgBlob(chartInstance);
@@ -791,7 +817,8 @@ export default function Home() {
   //   pieLegendData,
   //   questionImage,
   //   optionHeights,
-  //   optionsWithImagesLines
+  //   optionsWithImagesLines,
+  //   lContainerHeight
   // );
 
   const size = "small";
