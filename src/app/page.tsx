@@ -213,7 +213,7 @@ const renderLgLegendItem = (
     (optionHeights.length - 1) * OPTION_IMAGE_MARGIN_BOTTOM;
   const chartVerticalPadding = (containerHeight - optionsHeightSum) / 2;
   const currentOptionVerticalPadding =
-    (optionHeights[param.dataIndex] - 72) / 2;
+    (optionHeights[param.dataIndex] - OPTION_IMAGE_SIDE) / 2;
   let optionCenterY =
     itemsLength === 1
       ? prevOptionHeightsSum +
@@ -227,7 +227,7 @@ const renderLgLegendItem = (
       ? prevOptionHeightsSum +
         (optionHeights[param.dataIndex] - OPTION_IMAGE_MARGIN_BOTTOM) / 2 -
         OPTION_IMAGE_SIDE / 2
-      : optionCenterY - 72 / 2;
+      : optionCenterY - OPTION_IMAGE_SIDE / 2;
 
   const labelY =
     itemsLength === 1
@@ -746,11 +746,13 @@ export default function Home() {
     return OPTION_IMAGE_SIDE;
   });
 
-  const containerHeight =
+  const largeContainerHeight =
     optionHeights.reduce((total, height) => (total += height), 0) +
     OPTION_IMAGE_MARGIN_BOTTOM * (optionHeights.length - 1);
-  const lContainerHeight = containerHeight < 188 ? 188 : containerHeight;
-  console.log("lContainerHeight", lContainerHeight);
+  const lContainerHeight =
+    largeContainerHeight < MIN_L_CHART_HEIGHT
+      ? MIN_L_CHART_HEIGHT
+      : largeContainerHeight;
 
   const downloadChart = async (chartInstance: ECharts) => {
     const url = await getSvgBlob(chartInstance);
@@ -810,18 +812,18 @@ export default function Home() {
     [isChartDownloading, pieLegendData]
   );
 
-  const option = getSmOption(pieData, pieLegendData);
+  // const option = getSmOption(pieData, pieLegendData);
   // const option = getMdOption(pieData, pieLegendData, questionImage);
-  // const option = getLgOption(
-  //   pieData,
-  //   pieLegendData,
-  //   questionImage,
-  //   optionHeights,
-  //   optionsWithImagesLines,
-  //   lContainerHeight
-  // );
+  const option = getLgOption(
+    pieData,
+    pieLegendData,
+    questionImage,
+    optionHeights,
+    optionsWithImagesLines,
+    lContainerHeight
+  );
 
-  const size = "small";
+  const size = "large";
 
   return (
     <>
